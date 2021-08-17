@@ -36,8 +36,15 @@ public class TestExecutionManager implements DisposableBean {
     @Value("${throttle.max.pps}")
     private Double maxPermits;
 
-    @Value("${throttle.ramp.up.period}")
-    private Long rampUpPeriod;
+    @Value("${throttle.soak.ramp.interval.seconds}")
+    private long rampInterval;
+
+    @Value("${throttle.soak.ramp.period.minutes}")
+    private long rampPeriod;
+
+    @Value("${throttle.soak.duration.minutes}")
+    private long soakDuration;
+
 
     @Autowired
     private JmsTemplate jmsTemplate;
@@ -59,7 +66,10 @@ public class TestExecutionManager implements DisposableBean {
         }
 
         TestExecutionRunnable task = new TestExecutionRunnable(
-                test.getName(), destinationQueue, test.getPermitPerSecond(), rampUpPeriod, jmsTemplate);
+                test.getName(), destinationQueue, jmsTemplate,
+                test.getPermitPerSecond(), test.isEnableSoakTest(), rampInterval,
+                rampPeriod, soakDuration
+        );
 
         taskExecutor.execute(task);
         testExecutionTaskMap.put(test.getId(), task);

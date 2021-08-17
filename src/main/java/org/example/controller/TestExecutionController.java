@@ -25,7 +25,7 @@ public class TestExecutionController {
     private TestExecutionService testsService;
 
     @RequestMapping(method = RequestMethod.GET, value = "/tests")
-    public CompletableFuture<List<Test>> allTopics() {
+    public CompletableFuture<List<Test>> getTestList() {
         try {
             return testsService.getTestExecutionList();
         } catch (Exception e) {
@@ -39,13 +39,13 @@ public class TestExecutionController {
     }
 
     @RequestMapping(method = RequestMethod.GET, value = "tests/{id}")
-    public Test getTopic(@PathVariable("id") String id) {
+    public Test getTest(@PathVariable("id") String id) {
         return testsService.getTestExecution(id);
     }
 
     @RequestMapping(method = RequestMethod.POST, value = "/tests")
-    public void addTest(@RequestBody Test topic) {
-        testsService.addTest(topic);
+    public void addTest(@RequestBody Test test) {
+        testsService.addTest(test);
     }
 
     @RequestMapping(method = RequestMethod.POST, value = "/tests/start")
@@ -67,7 +67,7 @@ public class TestExecutionController {
             if (e instanceof NoSuchElementException) {
                 return new ResponseEntity<Object>(HttpStatus.NOT_FOUND);
             } else {
-                return new ResponseEntity<Object>(HttpStatus.BANDWIDTH_LIMIT_EXCEEDED);
+                return new ResponseEntity<Object>(HttpStatus.INTERNAL_SERVER_ERROR);
             }
         }
         return new ResponseEntity<Object>(HttpStatus.OK);
@@ -84,8 +84,8 @@ public class TestExecutionController {
     }
 
     @RequestMapping(method = RequestMethod.PUT, value = "/tests/{id}")
-    public void updateTest(@RequestBody Test topic, @PathVariable("id") String id) {
-        testsService.updateTest(topic, id);
+    public void updateTest(@RequestBody Test test, @PathVariable("id") String id) {
+        testsService.updateTest(test, id);
     }
 
     @RequestMapping(method = RequestMethod.DELETE, value = "/tests/{id}")

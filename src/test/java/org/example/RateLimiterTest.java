@@ -2,6 +2,7 @@ package org.example;
 
 import com.google.common.util.concurrent.RateLimiter;
 import org.example.archive.ThrottleController;
+import org.example.limiter.PasRateLimiter;
 import org.junit.Test;
 
 import java.time.ZonedDateTime;
@@ -106,7 +107,51 @@ public class RateLimiterTest {
     }
 
     @Test
-    public void testSomething() {
+    public void testSmoothIncrement() throws Exception {
+        int num = 0;
+        int perMinute = 75;
+        int perSeconds = perMinute / 60;
 
+        while (num <= perMinute) {
+            num += Math.round(perSeconds);
+            System.out.println(num);
+            Thread.sleep(1000);
+        }
+    }
+
+    @Test
+    public void testSpeedIncrement() throws Exception {
+        double maxPps = 100;
+        double period = 15 * 60;
+
+        double previousRate = 0, currentRate = 1;
+        double increment = currentRate;
+        int count = 0;
+        double remainingTime = period;
+        while (currentRate < 100) {
+            if (previousRate != currentRate) {
+                System.out.println(currentRate);
+                previousRate = currentRate;
+            }
+            Thread.sleep(10);
+            remainingTime -= 1;
+            double calculate = (maxPps - currentRate)/remainingTime;
+            increment = Math.round(calculate > 0 ? calculate : 0);
+            if (currentRate < maxPps) {
+                currentRate += increment;
+            } else {
+                currentRate = maxPps;
+            }
+            count++;
+        }
+        System.out.println("Total loop=" + count);
+    }
+
+    @Test
+    public void testSoakTest() throws Exception {
+        long duration = 3L;
+        PasRateLimiter pas = new PasRateLimiter(
+                100, true, duration, 1, 5);
+        Thread.sleep((duration * 60000) + 5000);
     }
 }

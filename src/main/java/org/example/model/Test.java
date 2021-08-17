@@ -1,7 +1,5 @@
 package org.example.model;
 
-import java.time.Duration;
-
 /**
  * @author yeesheng on 15/08/2021
  * @project RateLimiterExample
@@ -10,12 +8,13 @@ public class Test {
     private String id;
     private String name;
     private int permitPerSecond;
-    private Duration runDuration;
+    private boolean enableSoakTest;
 
-    public Test(String id, String name, int permitPerSecond) {
+    public Test(String id, String name, int permitPerSecond, boolean enableSoakTest) {
         this.id = id;
         this.name = name;
         this.permitPerSecond = permitPerSecond;
+        this.enableSoakTest = enableSoakTest;
     }
 
     public String getId() {
@@ -42,12 +41,12 @@ public class Test {
         this.permitPerSecond = permitPerSecond;
     }
 
-    public Duration getRunDuration() {
-        return runDuration;
+    public boolean isEnableSoakTest() {
+        return enableSoakTest;
     }
 
-    public void setRunDuration(Duration runDuration) {
-        this.runDuration = runDuration;
-        //Duration d = Duration.parse("PT1H30M")
+    public void setEnableSoakTest(boolean enableSoakTest) {
+        this.enableSoakTest = enableSoakTest;
     }
+
 }

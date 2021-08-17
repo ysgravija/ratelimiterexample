@@ -23,11 +23,11 @@ public class TestExecutionService {
 
     // Dummy value to represent database
     private List<Test> testList = new ArrayList<>(Arrays.asList(
-            new Test("1", "Bank A", 20),
-            new Test("2", "Bank B", 20),
-            new Test("3", "Bank C", 20),
-            new Test("4", "Bank D", 20),
-            new Test("5", "Bank E", 20)
+            new Test("1", "Bank A", 15, false),
+            new Test("2", "Bank B", 25, false),
+            new Test("3", "Bank C", 10, false),
+            new Test("4", "Bank D", 28, false),
+            new Test("5", "Bank E", 22, false)
     ));
 
     @Autowired
