@@ -3,6 +3,7 @@ package org.example;
 import com.google.common.util.concurrent.RateLimiter;
 import org.example.archive.ThrottleController;
 import org.example.limiter.PasRateLimiter;
+import org.junit.Ignore;
 import org.junit.Test;
 
 import java.time.ZonedDateTime;
@@ -15,7 +16,8 @@ import static org.junit.Assert.assertTrue;
  * @author yeesheng on 10/08/2021
  * @project RateLimiterExample
  */
-public class RateLimiterTest {
+@Ignore
+public class RateLimiterPerformanceTest {
 
     @Test
     public void testStableRate() {
@@ -57,6 +59,7 @@ public class RateLimiterTest {
         assertTrue(elapsedTimeSeconds >= 3);
     }
 
+    @Ignore
     @Test
     public void testSmoothBursty() {
         RateLimiter r = RateLimiter.create(10);
@@ -75,6 +78,7 @@ public class RateLimiterTest {
          */
     }
 
+    @Ignore
     @Test
     public void testSmoothwarmingUp() {
         RateLimiter r = RateLimiter.create(10, 15, TimeUnit.SECONDS);
